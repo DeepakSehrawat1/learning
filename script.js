@@ -4,6 +4,32 @@ itemlist.addEventListener("click", removebtn);
 
 form.addEventListener("submit", addelement);
 
+function showele(obj) {
+  var items = document.getElementById("items");
+
+  //creating li
+  var newitem = document.createElement("li");
+
+  //attaching to li
+  newitem.appendChild(document.createTextNode(`${obj.expense}`));
+  newitem.appendChild(document.createTextNode(`${obj.type}`));
+  newitem.appendChild(document.createTextNode(`${obj.category}`));
+
+  //creating del btn
+  var delbtn = document.createElement("button");
+  delbtn.id = "delete";
+  delbtn.appendChild(document.createTextNode("delete"));
+  newitem.appendChild(delbtn);
+
+  //creating edit btn
+  var editbtn = document.createElement("button");
+  editbtn.id = "edit";
+  editbtn.appendChild(document.createTextNode("edit"));
+  newitem.appendChild(editbtn);
+
+  items.appendChild(newitem);
+}
+
 function addelement(e) {
   e.preventDefault();
   var item1 = document.getElementById("amount").value;
@@ -21,34 +47,8 @@ function addelement(e) {
       "https://crudcrud.com/api/e5344f4ad3f2408abcb0532b71d233a9/appointment",
       myobj
     )
-    .then((res) => showele())
+    .then((res) => showele(myobj))
     .catch((err) => console.log(err));
-
-  function showele() {
-    var items = document.getElementById("items");
-
-    //creating li
-    var newitem = document.createElement("li");
-
-    //attaching to li
-    newitem.appendChild(document.createTextNode(`${item1}`));
-    newitem.appendChild(document.createTextNode(`${item2}`));
-    newitem.appendChild(document.createTextNode(`${item3}`));
-
-    //creating del btn
-    var delbtn = document.createElement("button");
-    delbtn.id = "delete";
-    delbtn.appendChild(document.createTextNode("delete"));
-    newitem.appendChild(delbtn);
-
-    //creating edit btn
-    var editbtn = document.createElement("button");
-    editbtn.id = "edit";
-    editbtn.appendChild(document.createTextNode("edit"));
-    newitem.appendChild(editbtn);
-
-    items.appendChild(newitem);
-  }
 
   document.getElementById("amount").value = " ";
   document.getElementById("job").value = " ";
@@ -72,3 +72,16 @@ function removebtn(e) {
     itemlist.removeChild(le);
   }
 }
+
+window.addEventListener("DOMContentLoaded", function () {
+  axios
+    .get(
+      "https://crudcrud.com/api/e5344f4ad3f2408abcb0532b71d233a9/appointment"
+    )
+    .then((res) => {
+      for (var i = 0; i < res.data.length; i++) {
+        showele(res.data[i]);
+      }
+    })
+    .catch((ele) => console.log("error"));
+});
