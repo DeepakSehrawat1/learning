@@ -16,32 +16,39 @@ function addelement(e) {
     category: item3,
   };
 
-  var eqstr = JSON.stringify(myobj);
-  localStorage.setItem(item2, eqstr);
+  axios
+    .post(
+      "https://crudcrud.com/api/e5344f4ad3f2408abcb0532b71d233a9/appointment",
+      myobj
+    )
+    .then((res) => showele())
+    .catch((err) => console.log(err));
 
-  var items = document.getElementById("items");
+  function showele() {
+    var items = document.getElementById("items");
 
-  //creating li
-  var newitem = document.createElement("li");
+    //creating li
+    var newitem = document.createElement("li");
 
-  //attaching to li
-  newitem.appendChild(document.createTextNode(`${item1}`));
-  newitem.appendChild(document.createTextNode(`${item2}`));
-  newitem.appendChild(document.createTextNode(`${item3}`));
+    //attaching to li
+    newitem.appendChild(document.createTextNode(`${item1}`));
+    newitem.appendChild(document.createTextNode(`${item2}`));
+    newitem.appendChild(document.createTextNode(`${item3}`));
 
-  //creating del btn
-  var delbtn = document.createElement("button");
-  delbtn.id = "delete";
-  delbtn.appendChild(document.createTextNode("delete"));
-  newitem.appendChild(delbtn);
+    //creating del btn
+    var delbtn = document.createElement("button");
+    delbtn.id = "delete";
+    delbtn.appendChild(document.createTextNode("delete"));
+    newitem.appendChild(delbtn);
 
-  //creating edit btn
-  var editbtn = document.createElement("button");
-  editbtn.id = "edit";
-  editbtn.appendChild(document.createTextNode("edit"));
-  newitem.appendChild(editbtn);
+    //creating edit btn
+    var editbtn = document.createElement("button");
+    editbtn.id = "edit";
+    editbtn.appendChild(document.createTextNode("edit"));
+    newitem.appendChild(editbtn);
 
-  items.appendChild(newitem);
+    items.appendChild(newitem);
+  }
 
   document.getElementById("amount").value = " ";
   document.getElementById("job").value = " ";
