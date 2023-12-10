@@ -1,6 +1,4 @@
 var form = document.getElementById("form_group");
-var itemlist = document.getElementById("items");
-itemlist.addEventListener("click", removebtn);
 
 form.addEventListener("submit", addelement);
 
@@ -28,6 +26,41 @@ function showele(obj) {
   newitem.appendChild(editbtn);
 
   items.appendChild(newitem);
+
+  delbtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    axios
+      .delete(
+        "https://crudcrud.com/api/59675cf01959452299e9ef3b0620e3ee/appointment/" +
+          obj._id
+      )
+      .then((res) => {
+        var li = e.target.parentElement;
+        items.removeChild(li);
+      })
+      .catch((err) => console.log(err));
+  });
+
+  editbtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    axios
+      .delete(
+        "https://crudcrud.com/api/59675cf01959452299e9ef3b0620e3ee/appointment/" +
+          obj._id
+      )
+      .then((res) => {
+        var li = e.target.parentElement.childNodes;
+        console.log(li[0].data);
+
+        document.getElementById("amount").value = li[0].data;
+        document.getElementById("job").value = li[1].data;
+        document.getElementById("category").value = li[2].data;
+
+        var le = e.target.parentElement;
+        items.removeChild(le);
+      })
+      .catch((err) => console.log(err));
+  });
 }
 
 function addelement(e) {
@@ -44,7 +77,7 @@ function addelement(e) {
 
   axios
     .post(
-      "https://crudcrud.com/api/e5344f4ad3f2408abcb0532b71d233a9/appointment",
+      "https://crudcrud.com/api/59675cf01959452299e9ef3b0620e3ee/appointment",
       myobj
     )
     .then((res) => showele(myobj))
@@ -55,11 +88,19 @@ function addelement(e) {
   document.getElementById("category").value = " ";
 }
 
-function removebtn(e) {
+/*function removebtn(e) {
   e.preventDefault();
   if (e.target.id === "delete") {
     var li = e.target.parentElement;
-    itemlist.removeChild(li);
+
+    console.log(li._id);
+    /* axios
+      .delete(
+        "https://crudcrud.com/api/e5344f4ad3f2408abcb0532b71d233a9/appointment" +
+          li
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   } else if (e.target.id === "edit") {
     var li = e.target.parentElement.childNodes;
     console.log(li[0].data);
@@ -71,15 +112,16 @@ function removebtn(e) {
     var le = e.target.parentElement;
     itemlist.removeChild(le);
   }
-}
+}*/
 
 window.addEventListener("DOMContentLoaded", function () {
   axios
     .get(
-      "https://crudcrud.com/api/e5344f4ad3f2408abcb0532b71d233a9/appointment"
+      "https://crudcrud.com/api/59675cf01959452299e9ef3b0620e3ee/appointment"
     )
     .then((res) => {
       for (var i = 0; i < res.data.length; i++) {
+        console.log(res.data[i]);
         showele(res.data[i]);
       }
     })
